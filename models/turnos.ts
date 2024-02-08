@@ -5,22 +5,36 @@ export interface ITurnos {
     createdAt: Date
     user: Types.ObjectId;
     fecha: String;
-    horario:String;  
+    horario: String;
+    name: String;
+    email: String;
+    telefono: String;
 }
 
 
-const turnosSchema = new Schema <ITurnos>({
-    createdAt:{
-        type:Date,
-        default:Date.now,
+const turnosSchema = new Schema<ITurnos>({
+    createdAt: {
+        type: Date,
+        default: Date.now,
     },
-    user:{
-        type:Schema.Types.ObjectId,
+    user: {
+        type: Schema.Types.ObjectId,
         ref: 'Usuario',
-        required:true,
+        required: true,
     },
-    
-    fecha:{
+    name: {
+        type: String,
+        required: true,
+    },
+    email: {
+        type: String,
+        required: true,
+    },
+    telefono: {
+        type: Number,
+        required: true,
+    },
+    fecha: {
         type: String,
         required: true,
     },
