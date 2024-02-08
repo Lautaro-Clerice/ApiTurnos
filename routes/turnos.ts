@@ -18,7 +18,6 @@ router.get('/',
 router.post('/', 
 [
     validarJWT,
-    check('usuario', 'El usuario es obligatorio'),
     check('fecha', 'La fecha es obligatorio'),
     check('horario', 'El horario es obligatorio'),
     recolectarErrores
