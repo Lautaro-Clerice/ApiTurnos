@@ -24,10 +24,11 @@ router.post('/',
 ],
 createTurno)
 
-router.delete('/turnos/:id',
-[
-    validarJWT
-],
-deleteTurno);
+router.delete('/',
+    [
+        validarJWT
+    ],
+    deleteTurno
+);
 
 export default router
