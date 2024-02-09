@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createTurno, deleteTurno, getTurnos } from "../controllers/turnos"
+import { createTurno, getTurnos } from "../controllers/turnos"
 import validarJWT from "../middlewares/validarJWT"
 import { recolectarErrores } from "../middlewares/recolectarErrores"
 import { check } from "express-validator"
@@ -23,12 +23,5 @@ router.post('/',
     recolectarErrores
 ],
 createTurno)
-
-router.delete('/',
-    [
-        validarJWT
-    ],
-    deleteTurno
-);
 
 export default router
