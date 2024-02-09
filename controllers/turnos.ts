@@ -58,7 +58,6 @@ export const deleteTurno = async (req: Request, res: Response) => {
             return res.status(404).json({ error: "El turno no fue encontrado." });
         }
 
-        // Elimina el turno
         await Turnos.findByIdAndDelete(turnoId);
 
         res.status(200).json({ message: "El turno ha sido eliminado correctamente." });
