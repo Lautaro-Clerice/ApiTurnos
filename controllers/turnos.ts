@@ -45,3 +45,25 @@ export const createTurno = async (req: Request, res: Response) => {
         });
     }
 }
+
+
+export const deleteTurno = async (req: Request, res: Response) => {
+    const usuarioId: ObjectId = req.body.usuarioConfirmado._id;
+    const turnoId: ObjectId = req.body.turnoId;
+
+    try {
+        const turno = await Turnos.findOne({ _id: turnoId, user: usuarioId });
+
+        if (!turno) {
+            return res.status(404).json({ error: "El turno no fue encontrado." });
+        }
+
+        // Elimina el turno
+        await Turnos.findByIdAndDelete(turnoId);
+
+        res.status(200).json({ message: "El turno ha sido eliminado correctamente." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Ocurrió un error al intentar eliminar el turno." });
+    }
+}
