@@ -25,7 +25,9 @@ router.post('/',
 createTurno)
 
 router.delete('/',
- 
+    [
+        validarJWT
+    ],
     deleteTurno
 );
 
