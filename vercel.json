@@ -9,9 +9,7 @@
     "routes": [
         {
             "src": "/(.*)",
-            "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
-            "allow": ["https://re-turn-app.netlify.app"],
-            "headers": ["Content-Type", "Authorization"],
+
             "dest": "index.ts"
         }
     ]
