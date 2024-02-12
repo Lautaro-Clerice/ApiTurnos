@@ -9,6 +9,7 @@ export interface ITurnos {
     name: String;
     email: String;
     telefono: String;
+    save: () => Promise<any>;
 }
 
 
