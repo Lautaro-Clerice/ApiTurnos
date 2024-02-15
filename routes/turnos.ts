@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { createTurno, deleteTurno, getTurnos, updateTurno } from "../controllers/turnos"
+import { CreateTurnoLibre, createTurno, deleteTurno, getTurnos, getTurnosLibres, updateTurno } from "../controllers/turnos"
 import validarJWT from "../middlewares/validarJWT"
 import { recolectarErrores } from "../middlewares/recolectarErrores"
 import { check } from "express-validator"
@@ -8,12 +8,26 @@ const router = Router()
 
 router.get('/', 
 
-   [
+[
     validarJWT,
     recolectarErrores
-   ]
+]
+,getTurnos),
 
-    ,getTurnos)
+router.get('/TLibres',
+[
+recolectarErrores
+]
+, getTurnosLibres
+)
+
+router.post('/TLibres',
+[
+recolectarErrores
+]
+, CreateTurnoLibre
+)
+
 
 router.post('/', 
 [

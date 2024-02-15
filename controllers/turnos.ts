@@ -2,6 +2,7 @@
 import { Request, Response } from "express";
 import Turnos, { ITurnos } from '../models/turnos'; 
 import { ObjectId } from "mongoose";
+import TurnosLibres, { ITurnosLibres } from "../models/turnosLibres";
 
 export const getTurnos = async (req: Request, res : Response) => {
     
@@ -18,12 +19,13 @@ export const getTurnos = async (req: Request, res : Response) => {
 };
 
 
+
+
 export const createTurno = async (req: Request, res: Response) => {
     const usuarioId: ObjectId = req.body.usuarioConfirmado._id;
     const turnoData: ITurnos = req.body;
 
     try {
-        // Intenta crear el turno
         const data = {
             ...turnoData,
             user: usuarioId,
@@ -37,7 +39,6 @@ export const createTurno = async (req: Request, res: Response) => {
             turnos
         });
     } catch (error) {
-        // Captura y maneja cualquier error
         console.error(error);
 
         res.status(500).json({
@@ -66,7 +67,7 @@ export const deleteTurno = async (req: Request, res: Response) => {
 
 export const updateTurno = async (req: Request, res: Response) => {
     const turnoId: ObjectId = req.params.id; // Obtén el ID del turno de la solicitud
-    const { fecha, horario }: { fecha: string; horario: string } = req.body; // Extrae los campos fecha y horario del cuerpo de la solicitud
+    const { fecha, horario }: { fecha: string; horario: string } = req.body;
 
     try {
         const turnoExistente: ITurnos | null = await Turnos.findById(turnoId);
@@ -85,5 +86,44 @@ export const updateTurno = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: 'Error al actualizar el turno' });
+    }
+};
+
+export const CreateTurnoLibre  = async (req: Request, res: Response) => {
+    const { fecha, horario }: ITurnosLibres = req.body;
+    const newTurnoLibre = new  TurnosLibres({fecha, horario})
+    try {
+        const turnoExistente = await TurnosLibres.findOne({fecha, horario});
+
+        if(turnoExistente) {
+            return res.status(400).json({
+                error: 'Ya se encuentra un turno disponible'
+            })
+           
+        }
+        await newTurnoLibre.save()
+        console.log('Turno generado con exito');
+        
+    } catch (error) {
+        console.log('error al generar nuevo turno libre',error);
+        
+    }
+}
+
+export const getTurnosLibres = async (req: Request, res: Response) => {
+    try {
+        const turnosLibres: ITurnosLibres[] = await TurnosLibres.find();
+
+        const turnosLibresFormateados = turnosLibres.map((turnoLibre: ITurnosLibres) => ({
+            fecha: turnoLibre.fecha,
+            horario: turnoLibre.horario
+        }));
+
+        res.status(200).json({
+            data: turnosLibresFormateados
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener los turnos libres." });
     }
 };
