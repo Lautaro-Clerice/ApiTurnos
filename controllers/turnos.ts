@@ -29,7 +29,8 @@ export const createTurno = async (req: Request, res: Response) => {
         const data = {
             ...turnoData,
             user: usuarioId,
-            createdAt: new Date()
+            createdAt: new Date(),
+            status:"Pendiente"
         }
 
         const turnos = new Turnos(data);

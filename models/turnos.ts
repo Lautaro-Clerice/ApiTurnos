@@ -9,6 +9,7 @@ export interface ITurnos {
     name: String;
     email: String;
     telefono: String;
+    status: String;
     save: () => Promise<any>;
 }
 
@@ -42,8 +43,11 @@ const turnosSchema = new Schema<ITurnos>({
     horario: {
         type: String,
         required: true,
+    },
+    status: {
+        type: String,
+        required: true,
     }
-
 })
 
 const Turnos: Model<ITurnos> = model<ITurnos>('Turnos', turnosSchema);
