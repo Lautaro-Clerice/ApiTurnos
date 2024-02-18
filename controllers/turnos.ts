@@ -20,7 +20,6 @@ export const getTurnos = async (req: Request, res : Response) => {
 
 
 
-
 export const createTurno = async (req: Request, res: Response) => {
     const usuarioId: ObjectId = req.body.usuarioConfirmado._id;
     const turnoData: ITurnos = req.body;
@@ -127,4 +126,31 @@ export const getTurnosLibres = async (req: Request, res: Response) => {
         console.error(error);
         res.status(500).json({ error: "Error al obtener los turnos libres." });
     }
+};
+
+
+export const TurnosClientes = async (req: Request, res : Response) => {
+    try {
+        const turnosLibres: ITurnos[] = await Turnos.find();
+
+        const turnosLibresFormateados = turnosLibres.map((turnoLibre: ITurnos) => ({
+            fecha: turnoLibre.fecha,
+            horario: turnoLibre.horario,
+            createdAt: turnoLibre.createdAt,
+            user: turnoLibre.user,
+            name: turnoLibre.name,
+            telefono: turnoLibre.telefono,
+            status: turnoLibre.status,
+            email: turnoLibre.email
+
+        }));
+
+        res.status(200).json({
+            data: turnosLibresFormateados
+        });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener los turnos libres." });
+    }
+   
 };

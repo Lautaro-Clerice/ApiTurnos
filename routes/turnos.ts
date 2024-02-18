@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { CreateTurnoLibre, createTurno, deleteTurno, getTurnos, getTurnosLibres, updateTurno } from "../controllers/turnos"
+import { CreateTurnoLibre, TurnosClientes, createTurno, deleteTurno, getTurnos, getTurnosLibres, updateTurno } from "../controllers/turnos"
 import validarJWT from "../middlewares/validarJWT"
 import { recolectarErrores } from "../middlewares/recolectarErrores"
 import { check } from "express-validator"
@@ -21,6 +21,13 @@ recolectarErrores
 , getTurnosLibres
 )
 
+
+router.get('/TurnoCliente',
+[
+recolectarErrores
+]
+, TurnosClientes
+)
 router.post('/TLibres',
 [
 recolectarErrores
