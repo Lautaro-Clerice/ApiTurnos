@@ -112,3 +112,25 @@ export const verifyUser = async (req: Request, res: Response) => {
     }
 
 }
+
+
+export const getUser = async (req: Request, res : Response) => {
+    try {
+        const Usuarios: Iuser[] = await Usuario.find();
+
+        const UsuariosGral = Usuarios.map((usuario: Iuser) => ({
+            name: usuario.nombre,
+            telefono: usuario.telefono,
+            email: usuario.email
+
+        }));
+
+        res.status(200).json({
+            data: UsuariosGral
+        }) 
+        }catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener los usuarios" });
+    }
+   
+};

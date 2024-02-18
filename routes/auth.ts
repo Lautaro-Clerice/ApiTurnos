@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, register, verifyUser } from "../controllers/auth";
+import { getUser, login, register, verifyUser } from "../controllers/auth";
 import {check} from 'express-validator'
 import { recolectarErrores } from "../middlewares/recolectarErrores";
 import { existeEmail } from "../helpers/validacionesDB";
@@ -40,5 +40,10 @@ router.patch(
     verifyUser
 );
 
+router.get('/usuariosCreados',
+[
+    recolectarErrores
+],
+getUser)
 
 export default router
