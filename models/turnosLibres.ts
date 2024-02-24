@@ -5,6 +5,7 @@ export interface ITurnosLibres {
     createdAt: Date;
     fecha: String;
     horario: String;
+    empleado:String;
 }
 
 
@@ -18,6 +19,10 @@ const turnosLibresSchema = new Schema<ITurnosLibres>({
         required: true,
     },
     horario: {
+        type: String,
+        required: true,
+    },
+    empleado: {
         type: String,
         required: true,
     }

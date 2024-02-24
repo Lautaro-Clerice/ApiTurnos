@@ -90,10 +90,16 @@ export const updateTurno = async (req: Request, res: Response) => {
 };
 
 export const CreateTurnoLibre  = async (req: Request, res: Response) => {
-    const { fecha, horario }: ITurnosLibres = req.body;
-    const newTurnoLibre = new  TurnosLibres({fecha, horario})
+    const { fecha, horario, empleado }: ITurnosLibres = req.body;
+    if (!fecha || !horario || !empleado) {
+        console.error('Falta uno o más campos obligatorios (fecha, horario, empleado)');
+        return res.status(400).json({
+            error: 'Falta uno o más campos obligatorios (fecha, horario, empleado)'
+        });
+    }
+    const newTurnoLibre = new  TurnosLibres({fecha, horario, empleado})
     try {
-        const turnoExistente = await TurnosLibres.findOne({fecha, horario});
+        const turnoExistente = await TurnosLibres.findOne({fecha, horario,empleado});
 
         if(turnoExistente) {
             return res.status(400).json({
@@ -103,6 +109,9 @@ export const CreateTurnoLibre  = async (req: Request, res: Response) => {
         }
         await newTurnoLibre.save()
         console.log('Turno generado con exito');
+        return res.status(200).json({
+            message: 'Turno generado con éxito'
+        });
         
     } catch (error) {
         console.log('error al generar nuevo turno libre',error);
@@ -116,9 +125,10 @@ export const getTurnosLibres = async (req: Request, res: Response) => {
 
         const turnosLibresFormateados = turnosLibres.map((turnoLibre: ITurnosLibres) => ({
             fecha: turnoLibre.fecha,
-            horario: turnoLibre.horario
+            horario: turnoLibre.horario,
+            empleado: turnoLibre.empleado
         }));
-
+        
         res.status(200).json({
             data: turnosLibresFormateados
         });
