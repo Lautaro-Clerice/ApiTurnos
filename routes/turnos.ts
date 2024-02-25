@@ -51,7 +51,7 @@ router.delete('/:id',
     deleteTurno
 );
 
-router.patch('/liberar/:id',
+router.put('/liberar',
 LibrerarTurnoLibre)
 
 
