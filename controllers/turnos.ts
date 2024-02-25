@@ -65,30 +65,6 @@ export const deleteTurno = async (req: Request, res: Response) => {
     }
 };
 
-export const updateTurno = async (req: Request, res: Response) => {
-    const turnoId: ObjectId = req.params.id; // Obtén el ID del turno de la solicitud
-    const { fecha, horario }: { fecha: string; horario: string } = req.body;
-
-    try {
-        const turnoExistente: ITurnos | null = await Turnos.findById(turnoId);
-        if (!turnoExistente) {
-            return res.status(404).json({ error: 'Turno no encontrado' });
-        }
-        if (fecha) {
-            turnoExistente.fecha = fecha;
-        }
-        if (horario) {
-            turnoExistente.horario = horario;
-        }
-
-        await turnoExistente.save();
-        res.json({ turno: turnoExistente });
-    } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Error al actualizar el turno' });
-    }
-};
-
 export const CreateTurnoLibre  = async (req: Request, res: Response) => {
     const { fecha, horario, empleado }: ITurnosLibres = req.body;
     if (!fecha || !horario || !empleado) {
@@ -165,4 +141,46 @@ export const TurnosClientes = async (req: Request, res : Response) => {
         res.status(500).json({ error: "Error al obtener los turnos libres." });
     }
    
+};
+
+
+export const OcuparTurnoLibre = async (req: Request, res: Response) => {
+    const turnoId: ObjectId = req.params.id;
+
+    try {
+        const turno = await TurnosLibres.findById(turnoId);
+        
+        if (!turno) {
+            return res.status(404).json({ error: "El turno no fue encontrado." });
+        }
+
+        turno.status = 'Ocupado';
+
+        await turno.save();
+
+        res.status(200).json({ message: "El turno ha sido marcado como ocupado correctamente." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Ocurrió un error al intentar actualizar el turno." });
+    }
+};
+export const LibrerarTurnoLibre = async (req: Request, res: Response) => {
+    const turnoId: ObjectId = req.params.id;
+
+    try {
+        const turno = await TurnosLibres.findById(turnoId);
+        
+        if (!turno) {
+            return res.status(404).json({ error: "El turno no fue encontrado." });
+        }
+
+        turno.status = 'Libre';
+
+        await turno.save();
+
+        res.status(200).json({ message: "El turno ha sido marcado como libre correctamente." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Ocurrió un error al intentar actualizar el turno." });
+    }
 };
