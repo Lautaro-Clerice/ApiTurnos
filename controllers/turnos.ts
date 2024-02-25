@@ -165,18 +165,18 @@ export const OcuparTurnoLibre = async (req: Request, res: Response) => {
     }
 };
 export const LibrerarTurnoLibre = async (req: Request, res: Response) => {
-    const turnoId: ObjectId = req.params.id;
+    const { fecha, horario, empleado } = req.body;
 
     try {
-        const turno = await TurnosLibres.findById(turnoId);
+        const turnoLibre = await TurnosLibres.findOne({ fecha, horario, empleado });
         
-        if (!turno) {
-            return res.status(404).json({ error: "El turno no fue encontrado." });
+        if (!turnoLibre) {
+            return res.status(404).json({ error: "El turno libre no fue encontrado." });
         }
 
-        turno.status = 'Libre';
+        turnoLibre.status = 'Libre';
 
-        await turno.save();
+        await turnoLibre.save();
 
         res.status(200).json({ message: "El turno ha sido marcado como libre correctamente." });
     } catch (error) {
