@@ -2,10 +2,12 @@ import { Model, Schema, Types, model } from "mongoose";
 
 
 export interface ITurnosLibres {
+    _id: Types.ObjectId;
     createdAt: Date;
     fecha: String;
     horario: String;
     empleado:String;
+    status: String;
 }
 
 
@@ -25,10 +27,17 @@ const turnosLibresSchema = new Schema<ITurnosLibres>({
     empleado: {
         type: String,
         required: true,
+    },
+    status:{
+        type: String,
+        default:'Libre',
     }
 
 })
-
+turnosLibresSchema.methods.toJSON = function() {
+    const {_id, ...libre} = this.toObject();
+    return libre;
+}
 const TurnosLibres: Model<ITurnosLibres> = model<ITurnosLibres>('TurnosLibres', turnosLibresSchema);
 
 

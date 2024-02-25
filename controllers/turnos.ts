@@ -126,7 +126,9 @@ export const getTurnosLibres = async (req: Request, res: Response) => {
         const turnosLibresFormateados = turnosLibres.map((turnoLibre: ITurnosLibres) => ({
             fecha: turnoLibre.fecha,
             horario: turnoLibre.horario,
-            empleado: turnoLibre.empleado
+            empleado: turnoLibre.empleado,
+            id:turnoLibre._id,
+            status: turnoLibre.status
         }));
         
         res.status(200).json({
