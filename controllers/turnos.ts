@@ -129,7 +129,10 @@ export const TurnosClientes = async (req: Request, res : Response) => {
             name: turnoLibre.name,
             telefono: turnoLibre.telefono,
             status: turnoLibre.status,
-            email: turnoLibre.email
+            email: turnoLibre.email,
+            empleado: turnoLibre.empleado,
+            precio: turnoLibre.precio,
+            servicio:turnoLibre.servicio,
 
         }));
 

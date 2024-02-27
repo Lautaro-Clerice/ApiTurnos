@@ -8,6 +8,7 @@ export interface ITurnosLibres {
     horario: String;
     empleado:String;
     status: String;
+    
 }
 
 
