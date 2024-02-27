@@ -54,6 +54,14 @@ const turnosSchema = new Schema<ITurnos>({
     empleado: {
         type: String,
         required: true,
+    },
+    servicio:{
+        type: String,
+        required: true,
+    },
+    precio: {
+        type: String,
+        required: true,
     }
 })
 
