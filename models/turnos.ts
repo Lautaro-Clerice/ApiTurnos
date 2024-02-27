@@ -10,6 +10,8 @@ export interface ITurnos {
     email: String;
     telefono: String;
     status: String;
+    servicio: String,
+    precio: String,
     empleado: String;
     save: () => Promise<any>;
 }
