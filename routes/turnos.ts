@@ -1,5 +1,5 @@
 import { Router } from "express"
-import { CreateTurnoLibre, LibrerarTurnoLibre, OcuparTurnoLibre,  TurnosClientes, createTurno, deleteTurno, getTurnos, getTurnosLibres} from "../controllers/turnos"
+import { CreateTurnoLibre, FinalizarTurno, LibrerarTurnoLibre, OcuparTurnoLibre,  TurnosClientes, createTurno, deleteTurno, getTurnos, getTurnosLibres} from "../controllers/turnos"
 import validarJWT from "../middlewares/validarJWT"
 import { recolectarErrores } from "../middlewares/recolectarErrores"
 import { check } from "express-validator"
@@ -54,5 +54,8 @@ router.delete('/:id',
 router.put('/liberar',
 LibrerarTurnoLibre)
 
+router.patch('/turnosTomados/:id',
+[recolectarErrores],
+FinalizarTurno)
 
 export default router

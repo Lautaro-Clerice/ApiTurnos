@@ -187,3 +187,24 @@ export const LibrerarTurnoLibre = async (req: Request, res: Response) => {
         res.status(500).json({ error: "Ocurrió un error al intentar actualizar el turno." });
     }
 };
+
+export const FinalizarTurno = async (req: Request, res: Response) => {
+    const turnoId: ObjectId = req.params.id;
+
+    try {
+        const turno = await Turnos.findById(turnoId);
+        
+        if (!turno) {
+            return res.status(404).json({ error: "El turno no fue encontrado." });
+        }
+
+        turno.status = 'Finalizado';
+
+        await turno.save();
+
+        res.status(200).json({ message: "El turno ha sido marcado como Finalizado correctamente." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Ocurrió un error al intentar finalizar el turno." });
+    }
+};
