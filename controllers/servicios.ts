@@ -4,23 +4,34 @@ import { ObjectId } from "mongodb";
 
 
 
-export const createServicio = async  (req: Request, res: Response) => {
-    const {servicio, precio, profesional} = req.body;
-    const nuevoServicio = new Servicios({servicio, precio, profesional});
+export const createServicio = async (req: Request, res: Response) => {
+    const { servicio, precio, profesional } = req.body;
+
     try {
-        const servicioExistente = await Servicios.findOne({servicio})
-    if(servicioExistente){
-        return res.status(400).json({
-            error:"Ya hay un servicio con este nombre"
-        })
-    }
-    const servicioGuardado = await nuevoServicio.save();
-    res.status(201).json({ message: "El servicio se cargo con exito", servicioGuardado });
+        if (!Array.isArray(profesional)) {
+            profesional = [profesional];
+        }
+
+        const serviciosGuardados = [];
+        for (const empleado of profesional) {
+            const nuevoServicio = new Servicios({ servicio, precio, profesional: empleado });
+            const servicioExistente = await Servicios.findOne({ servicio, profesional: empleado });
+
+            if (servicioExistente) {
+                return res.status(400).json({
+                    error: "Ya hay un servicio con este nombre para el empleado proporcionado"
+                });
+            }
+
+            const servicioGuardado = await nuevoServicio.save();
+            serviciosGuardados.push(servicioGuardado);
+        }
+
+        res.status(201).json({ message: "Los servicios se cargaron con éxito", serviciosGuardados });
     } catch (error) {
         console.log(error);
-        
+        res.status(500).json({ error: "Error interno del servidor" });
     }
-    
 }
 
 
