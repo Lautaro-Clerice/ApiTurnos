@@ -2,6 +2,7 @@ import { Model, Schema, Types, model } from "mongoose";
 
 
 export interface ITurnos {
+    _id: Types.ObjectId;
     createdAt: Date
     user: Types.ObjectId;
     fecha: String;
@@ -64,6 +65,11 @@ const turnosSchema = new Schema<ITurnos>({
         required: true,
     }
 })
+
+turnosSchema.methods.toJSON = function() {
+    const {_id, ...libre} = this.toObject();
+    return libre;
+}
 
 const Turnos: Model<ITurnos> = model<ITurnos>('Turnos', turnosSchema);
 

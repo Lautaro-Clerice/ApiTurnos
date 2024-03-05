@@ -133,6 +133,7 @@ export const TurnosClientes = async (req: Request, res : Response) => {
             empleado: turnoLibre.empleado,
             precio: turnoLibre.precio,
             servicio:turnoLibre.servicio,
+            id:turnoLibre._id,
 
         }));
 
@@ -206,5 +207,25 @@ export const FinalizarTurno = async (req: Request, res: Response) => {
     } catch (error) {
         console.error(error);
         res.status(500).json({ error: "Ocurrió un error al intentar finalizar el turno." });
+    }
+};
+export const AddPendienteTurno = async (req: Request, res: Response) => {
+    const turnoId: ObjectId = req.params.id;
+
+    try {
+        const turno = await Turnos.findById(turnoId);
+        
+        if (!turno) {
+            return res.status(404).json({ error: "El turno no fue encontrado." });
+        }
+
+        turno.status = 'Pendiente';
+
+        await turno.save();
+
+        res.status(200).json({ message: "El turno ha sido marcado como pendiente correctamente." });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Ocurrió un error al intentar poner al pendiente el turno." });
     }
 };
