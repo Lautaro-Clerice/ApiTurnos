@@ -121,8 +121,8 @@ export const getUser = async (req: Request, res : Response) => {
         const UsuariosGral = Usuarios.map((usuario: Iuser) => ({
             name: usuario.nombre,
             telefono: usuario.telefono,
-            email: usuario.email
-
+            email: usuario.email,
+            createdAt: usuario.createdAt
         }));
 
         res.status(200).json({

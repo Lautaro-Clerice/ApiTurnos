@@ -1,15 +1,20 @@
 import { Model, Schema, model } from "mongoose";
 
 export interface Iuser {
-    nombre:string;
-    email:string;
-    telefono:number;
-    code?: string;
-    verified?: string;
-    password: string;
+    nombre: String;
+    email: String;
+    telefono: Number;
+    code?: String;
+    verified?: String;
+    password: String;
+    createdAt: Date;
 };
 
 const UserSchema = new Schema<Iuser>({
+    createdAt: {
+        type: Date,
+        default: Date.now,
+    },
     nombre: {
         type:String,
         required: [true,'El nombre es obligatorio']
