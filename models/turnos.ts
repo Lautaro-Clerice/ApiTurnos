@@ -68,7 +68,7 @@ const turnosSchema = new Schema<ITurnos>({
 
 turnosSchema.methods.toJSON = function() {
     const {_id, ...libre} = this.toObject();
-    return libre;
+    return { _id, ...libre };
 }
 
 const Turnos: Model<ITurnos> = model<ITurnos>('Turnos', turnosSchema);
