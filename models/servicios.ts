@@ -4,7 +4,7 @@ import { Model, Schema, model } from "mongoose";
 export interface IServices {
     servicio: String;
     precio: String;
-    profesional: String;
+    profesional: string[];
 }
 
 
@@ -19,7 +19,7 @@ const ServicesSchema = new Schema<IServices> ({
     },
     profesional:{
         required: true,
-        type: String,
+        type: [String],
     }
 })
 
